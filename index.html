@@ -10,6 +10,9 @@
     <center>
       <div id="layout">
         <h1>Multi-Peer Chatting Application</h1>
+        <br />
+        <br />
+        <h3 id="header-name"></h3>
         <input type="text" id="name" placeholder="Enter your Name" />
         <input type="submit" id="join" value="Join" />
         <div id="message-div" style="display: none;">
@@ -24,6 +27,7 @@
       document.getElementById("join").addEventListener("click", () => {
         var name = document.getElementById("name").value;
         if (name) {
+          document.getElementById("header-name").textContent = name;
           document.getElementById("name").remove();
           document.getElementById("join").remove();
           document.getElementById("message-div").style.display = "inline";
