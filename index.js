@@ -12,7 +12,12 @@ app.get("/", function (req, res) {
 });
 
 io.on("connection", function (socket) {
-  console.log("a user connected");
+  socket.on("message", (data) => {
+    socket.broadcast.emit("message", {
+      name: data.name,
+      message: data.message,
+    });
+  });
 });
 
 http.listen(3000, function () {

@@ -8,19 +8,21 @@
   </head>
   <body>
     <center>
-      <h1>Multi-Peer Chatting Application</h1>
-      <input type="text" id="name" placeholder="Enter your Name" />
-      <input type="submit" id="join" value="Join" />
-      <div id="message-div" style="display: none;">
-        <input type="text" id="message" placeholder="Chat" />
-        <input type="submit" id="send" value="Send" />
+      <div id="layout">
+        <h1>Multi-Peer Chatting Application</h1>
+        <input type="text" id="name" placeholder="Enter your Name" />
+        <input type="submit" id="join" value="Join" />
+        <div id="message-div" style="display: none;">
+          <input type="text" id="message" placeholder="Chat" />
+          <input type="submit" id="send" value="Send" />
+        </div>
       </div>
     </center>
     <script>
       var socket = io();
 
       document.getElementById("join").addEventListener("click", () => {
-        let name = document.getElementById("name").value;
+        var name = document.getElementById("name").value;
         if (name) {
           document.getElementById("name").remove();
           document.getElementById("join").remove();
@@ -29,6 +31,9 @@
           document.getElementById("send").addEventListener("click", () => {
             let message = document.getElementById("message").value;
             if (message) {
+              let p = document.createElement("p");
+              p.textContent = name + " ---- " + message;
+              document.getElementById("layout").appendChild(p);
               socket.emit("message", { name, message });
             } else {
               alert("Please type some message to send");
@@ -37,6 +42,12 @@
         } else {
           alert("Please Enter Name to Join Chat");
         }
+
+        socket.on("message", (data) => {
+          let p = document.createElement("p");
+          p.textContent = data.name + " ---- " + data.message;
+          document.getElementById("layout").appendChild(p);
+        });
       });
     </script>
   </body>
