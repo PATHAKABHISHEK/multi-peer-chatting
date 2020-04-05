@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="/socket.io/socket.io.js"></script>
+  </head>
+  <body>
+    <center>
+      <h1>Multi-Peer Chatting Application</h1>
+      <input type="text" id="name" placeholder="Enter your Name" />
+      <input type="submit" id="join" value="Join" />
+      <div id="message-div" style="display: none;">
+        <input type="text" id="message" placeholder="Chat" />
+        <input type="submit" id="send" value="Send" />
+      </div>
+    </center>
+    <script>
+      var socket = io();
+
+      document.getElementById("join").addEventListener("click", () => {
+        let name = document.getElementById("name").value;
+        if (name) {
+          document.getElementById("name").remove();
+          document.getElementById("join").remove();
+          document.getElementById("message-div").style.display = "inline";
+
+          document.getElementById("send").addEventListener("click", () => {
+            let message = document.getElementById("message").value;
+            if (message) {
+              socket.emit("message", { name, message });
+            } else {
+              alert("Please type some message to send");
+            }
+          });
+        } else {
+          alert("Please Enter Name to Join Chat");
+        }
+      });
+    </script>
+  </body>
+</html>
